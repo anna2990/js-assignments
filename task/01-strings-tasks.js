@@ -55,7 +55,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-    return `Hello, + ${firstName + ' ' + lastName + '!'}`;
+    return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -114,11 +114,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    const arr = [];
-    while(arr.length < count) {
-        arr.push(value);
-    }
-    return arr.join('');
+    return value.repeat(count);
 }
 
 /**
@@ -205,9 +201,9 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    let str1 = '─'.repeat(width-2);
-    let str2 = ' '.repeat(width-2);
-    let str3 = `\n│${str2}│`.repeat(height-2);
+    const str1 = '─'.repeat(width-2);
+    const str2 = ' '.repeat(width-2);
+    const str3 = `\n│${str2}│`.repeat(height-2);
     return `┌${str1}┐${str3}\n└${str1}┘\n`;
 }
 
