@@ -73,7 +73,7 @@ function getAverage(value1, value2) {
  *   (-5,0) (10,-10) => 18.027756377319946
  */
 function getDistanceBetweenPoints(x1, y1, x2, y2) {
-    return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2 + y1, 2));
+    return Math.sqrt((x2 - x1) ** 2 + (y2 + y1) ** 2);
 }
 
 /**
@@ -181,10 +181,8 @@ function getParallelipidedDiagonal(a, b, c) {
  *   1678, 3  => 2000
  */
 function roundToPowerOfTen(num, pow) {
-    if (num % Math.pow(10, pow) >= 5 * Math.pow(10, pow - 1)) {
-        return num + (Math.pow(10, pow) - num % Math.pow(10, pow));
-    }
-    return num - (num % Math.pow(10, pow));
+    let tmp = Math.pow(10, pow);
+	return Math.round(num / tmp) * tmp;
 }
 
 /**
@@ -229,7 +227,7 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-    return typeof +value == 'number' && !isNaN(+value) ? +value : def;
+    return typeof +value === 'number' && !isNaN(+value) ? +value : def;
 }
 
 module.exports = {
