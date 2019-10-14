@@ -33,7 +33,7 @@
  *
  */
 function* get99BottlesOfBeer() {
-     let count = 99;
+    let count = 99;
     while (count >= 3) {
         yield count + ' bottles of beer on the wall, ' + count + ' bottles of beer.';
         yield 'Take one down and pass it around, ' + --count + ' bottles of beer on the wall.';
@@ -137,11 +137,11 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    var nodes = [root];
-    for (var i = 0; i < nodes.length; i++) {
+    let nodes = [root];
+    for (let i = 0; i < nodes.length; i++) {
         yield nodes[i];
         if ('children' in nodes[i]) {
-            for (var j = 0; j < nodes[i].children.length; j++) {
+            for (let j = 0; j < nodes[i].children.length; j++) {
                 nodes.push(nodes[i].children[j]);
             }
         }
