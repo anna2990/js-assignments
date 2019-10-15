@@ -39,7 +39,7 @@ function findElement(arr, value) {
  */
 function generateOdds(len) {
    const numbers = new Array(len).fill();
-   return numbers.map(i => i * 2 + 1); 
+   return numbers.map((x, i ) => i * 2 + 1); 
 }
 
 
@@ -103,7 +103,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-   return arr.filter(elem => Boolean(elem) !== 0);
+   return arr.filter(elem => Boolean(elem) !== false);
 }
 
 /**
@@ -482,7 +482,7 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   return arr.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
+  return arr.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
 }
 
 /**
@@ -517,8 +517,9 @@ function distinct(arr) {
  */
 function group(array, keySelector, valueSelector) {
    let map = new Map();
+   let selector = keySelector;
    array.map((v, i) => {
-      map.set(keySelector(v), (map.get(keySelector(v)) === undefined ? [] : map.get(keySelector(v))).concat([valueSelector(v)]));
+      map.set(selector(v), (map.get(selector(v)) === undefined ? [] : map.get(selector(v))).concat([valueSelector(v)]));
    });
    return map;
 }
