@@ -39,9 +39,7 @@ function findElement(arr, value) {
  */
 function generateOdds(len) {
    const numbers = new Array(len).fill();
-   return numbers.map(function(_, i, arr) {
-      return arr[i] = i * 2 + 1;
-   });
+   return numbers.map(i => i * 2 + 1); 
 }
 
 
@@ -57,8 +55,7 @@ function generateOdds(len) {
  *    [] => [] 
  */
 function doubleArray(arr) {
-   const arr2 = arr;
-   return arr.concat(arr2);
+   return arr.concat([...arr, ...arr]);
 }
 
 
@@ -89,7 +86,7 @@ function getArrayOfPositives(arr) {
  *    [ 'cat, 'dog', 'raccon' ] => [ 'cat', 'dog', 'racoon' ]
  */
 function getArrayOfStrings(arr) {
-   return arr.filter(elem => typeof(elem) == 'string');
+   return arr.filter(elem => typeof elem === 'string');
 }
 
 /**
@@ -106,7 +103,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-   return arr.filter(elem => Boolean(elem) != 0);
+   return arr.filter(elem => Boolean(elem) !== 0);
 }
 
 /**
@@ -223,9 +220,7 @@ function toCsvText(arr) {
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
 function toArrayOfSquares(arr) {
-   return arr.map((elem) => {
-      return Math.pow(elem, 2);
-   });
+   return arr.map((elem) => elem ** 2);
 }
 
 
