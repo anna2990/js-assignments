@@ -135,12 +135,8 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    if (rect1.top + rect1.width < rect2.top || rect2.top + rect2.width < rect1.top || 
-        rect1.left + rect1.height < rect2.left || rect2.left + rect1.height < rect1.left) {
-        return false;
-    } else {
-        return true;
-    }
+    return (rect1.top + rect1.width < rect2.top || rect2.top + rect2.width < rect1.top || 
+        rect1.left + rect1.height < rect2.left || rect2.left + rect1.height < rect1.left) ? false : true
 }
 
 
@@ -189,7 +185,11 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-    return Array.from(str).filter((item, i, arr) => arr.lastIndexOf(item) == arr.indexOf(item))[0];
+    for(let i = 0; i < str.length; i++)
+        if (str.indexOf(str[i]) == str.lastIndexOf(str[i])){
+            return str[i];
+        }
+    return null;
 }
 
 
@@ -215,7 +215,9 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-     return `${(isStartIncluded ? '[' : '(' )}${(a > b ? b : a)}, ${(a > b ? a : b)}${(isEndIncluded ? ']' : ')')}`;
+    const start = isStartIncluded ? '[' : '(';
+    const end = isEndIncluded ? ']' : ')';
+    return `${start}${(a > b ? b : a)}, ${(a > b ? a : b)}${end}`;
 }
 
 
@@ -253,12 +255,12 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-    num  = num.toString();
-    let result = '';
-    for (let i = num.length - 1; i > -1; i--) {
-        result += num[i]
+    let b = 0;
+    while (num > 0) {
+        b = (b + num % 10) * 10;
+        num = parseInt( num / 10 );
     }
-    return result;
+    return b / 10
 }
 
 
@@ -435,14 +437,13 @@ function timespanToHumanString(startDate, endDate) {
  *    365, 10 => '365'
  */
 function toNaryString(num, n) {
-    let arr = [];
-    while (num >= n) {
-        arr.push(num % n);
-        num = Math.floor(num / n);
+    let str = '';  
+    while (num > 0) 
+    {
+      str = (num % n) + str;
+      num = Math.trunc(num / n);
     }
-    arr.push(num);
-    arr.reverse();
-    return arr.join('');
+    return str;
 }
 
 
