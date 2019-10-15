@@ -55,7 +55,7 @@ function generateOdds(len) {
  *    [] => [] 
  */
 function doubleArray(arr) {
-   return arr.concat([...arr, ...arr]);
+   return arr.concat([...arr]);
 }
 
 
@@ -220,7 +220,7 @@ function toCsvText(arr) {
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
 function toArrayOfSquares(arr) {
-   return arr.map((elem) => elem ** 2);
+   return arr.map((elem) => Math.pow(elem, 2));
 }
 
 
@@ -273,11 +273,10 @@ function getSecondItems(arr) {
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
 function propagateItemsByPositionIndex(arr) {
-   let res = new Array;
-   arr.map((elem, i) => {
-      res = res.concat(Array(i + 1).fill(elem))
-   });
-   return res;
+   return arr.reduce((prev, cur, i) => {
+     let items = new Array(i + 1).fill(cur);
+       return prev.concat(items)
+   }, []);
 }
 
 
@@ -365,7 +364,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-   return arr.filter(elem => (!elem)).length;
+   return arr.filter(elem => !elem).length;
 }
 
 /**
@@ -483,8 +482,7 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   let newArr = [];
-   return arr.filter((elem) => newArr.indexOf(elem) === -1 ? newArr.push(elem) : false);
+   return arr.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
 }
 
 /**
@@ -578,10 +576,8 @@ function getElementByIndexes(arr, indexes) {
  * 
  */
 function swapHeadAndTail(arr) {
-   const head = arr.slice(0, Math.trunc(arr.length / 2));
-   const tail = arr.slice(Math.ceil(arr.length / 2));
-   const middle = arr.length % 2 !== 0 ? arr[head.length] : null;
-   return middle ? tail.concat(middle).concat(head) : tail.concat(head);
+   let middle = Math.ceil(arr.length/2) - 1;
+   return arr.map((x, i) => arr[i <= middle ? ((i == middle && arr.length % 2 != 0) ? i : middle + i + 1) : (i - middle - 1)]);
 }
 
 
