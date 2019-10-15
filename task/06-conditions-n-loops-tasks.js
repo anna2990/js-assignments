@@ -544,7 +544,25 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    throw new Error('Not implemented');
+    var arr = position.map((v) => {
+        return v.map((a) => {
+            if (a === 'X') return 1;
+            if (a === '0') return 10;
+        });
+    });
+    var arrSum = [];
+    arrSum.push(arr[0][0] + arr[1][1] + arr[2][2]);
+    arrSum.push(arr[2][0] + arr[1][1] + arr[0][2]);
+    var i = 0, j = 0;
+    for (let i = 0; i < arr.length; i++) {
+        arrSum.push(arr[i][j] + arr[i][j+1] + arr[i][j+2]);
+    }
+    for (let j = 0; j < arr[0].length; j++) {
+        arrSum.push(arr[i][j] + arr[i+1][j] + arr[i+2][j]);
+    }
+    var res = arrSum.filter(x => x === 3 || x === 30);
+    if (res[0] === 3) return 'X';
+    if (res[0] === 30) return '0';
 }
 
 
