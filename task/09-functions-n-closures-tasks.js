@@ -68,7 +68,7 @@ function getPolynom() {
     return (x) => {
         let ret = null;
         for (var i = 0; i < arguments.length; i++) {
-            ret += arguments[i] * (x ** (arguments.length - i - 1));
+            ret += arguments[i] * Math.pow(x, arguments.length - i - 1);
         }
         return ret;
     }
