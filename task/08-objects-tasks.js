@@ -110,152 +110,122 @@ function fromJSON(proto, json) {
  */
 
 const cssSelectorBuilder = {
- str: '', 
- element: function(value) {      
-     let MySuperBaseElementSelector = function (value) {    
-       MySuperBaseElementSelector.prototype = cssSelectorBuilder;    
-        cssSelectorBuilder.str += value;           
-        this.val= cssSelectorBuilder.str;                 
-            
-         this.element = function () {
-             throw 'Element, id and pseudo-element should not occur more then one time inside the selector';
-         };
-         this.id = this.constructor.prototype.id;
-         this.class = this.constructor.prototype.class;
-         this.attr = this.constructor.prototype.attr;
-         this.pseudoClass = this.constructor.prototype.pseudoClass;
-         this.pseudoElement = this.constructor.prototype.pseudoElement;            
-         this.stringify = this.constructor.prototype.stringify;
-       }
-        return new MySuperBaseElementSelector(value);        
-    },
-  
-    id: function(value) {
-        let MySuperBaseIdSelector = function (value) {
-          MySuperBaseIdSelector.prototype = cssSelectorBuilder;  
-          cssSelectorBuilder.str += '#' + value;
-          this.val = cssSelectorBuilder.str;
-        
-          this.element = function () {
-            throw 'Selector parts should be arranged in the following order: element, id, class, '
-                  + 'attribute, pseudo-class, pseudo-element';
-          };
+        element: function (value) {
+            return new CssSelector().element(value);
+        },
 
-          this.id = function () {
-            throw 'Element, id and pseudo-element should not occur more then one time inside the selector';
-          };
+        id: function (value) {
+            return new CssSelector().id(value);
+        },
 
-          this.class = this.constructor.prototype.class;
-          this.attr = this.constructor.prototype.attr;
-          this.pseudoClass = this.constructor.prototype.pseudoClass;
-          this.pseudoElement = this.constructor.prototype.pseudoElement;
-          this.stringify = this.constructor.prototype.stringify;
+        class: function (value) {
+            return new CssSelector().class(value);
+        },
+
+        attr: function (value) {
+            return new CssSelector().attr(value);
+        },
+
+        pseudoClass: function (value) {
+            return new CssSelector().pseudoClass(value);
+        },
+
+        pseudoElement: function (value) {
+            return new CssSelector().pseudoElement(value);
+        },
+
+        combine: function (selector1, combinator, selector2) {
+            return new CssSelector().combine(selector1, combinator, selector2);
         }
-        return new MySuperBaseIdSelector(value);
-    },
-   
-    class: function(value) {
-        let MySuperBaseClassSelector = function (value) {
-          MySuperBaseClassSelector.prototype = cssSelectorBuilder;
-          cssSelectorBuilder.str += '.' + value;
-          this.val = cssSelectorBuilder.str;
-        
-          this.element = this.id = function () {
-            throw 'Selector parts should be arranged in the following order: element, id, class, '
-              + 'attribute, pseudo-class, pseudo-element';
-          };
-
-          this.class = this.constructor.prototype.class;
-          this.attr = this.constructor.prototype.attr;
-          this.pseudoClass = this.constructor.prototype.pseudoClass;
-          this.pseudoElement = this.constructor.prototype.pseudoElement;
-          this.stringify = this.constructor.prototype.stringify;
-        }
-        return new MySuperBaseClassSelector(value);
-    },
-
-    attr: function(value) {
-        let MySuperBaseAttrSelector = function (value) {
-          MySuperBaseAttrSelector.prototype = cssSelectorBuilder;
-          cssSelectorBuilder.str += '[' + value + ']';
-          this.val = cssSelectorBuilder.str;
-        
-          this.element = this.id = this.class = function () {
-            throw 'Selector parts should be arranged in the following order: element, id, class, '
-              + 'attribute, pseudo-class, pseudo-element';
-          };
-
-          this.attr = this.constructor.prototype.attr;
-          this.pseudoClass = this.constructor.prototype.pseudoClass;
-          this.pseudoElement = this.constructor.prototype.pseudoElement;
-          this.stringify = this.constructor.prototype.stringify;
-        }
-
-        return new MySuperBaseAttrSelector(value);
-    },
-
-    pseudoClass: function(value) {
-        let MySuperBasePseudoClassSelector = function (value) {
-          MySuperBasePseudoClassSelector.prototype = cssSelectorBuilder;
-          cssSelectorBuilder.str += ':' + value;
-          this.val = cssSelectorBuilder.str;
-        
-          this.element = this.id = this.class = this.attr = function () {
-            throw 'Selector parts should be arranged in the following order: element, id, class, '
-              + 'attribute, pseudo-class, pseudo-element';
-          };
-
-          this.pseudoClass = this.constructor.prototype.pseudoClass;
-          this.pseudoElement = this.constructor.prototype.pseudoElement;
-          this.stringify = this.constructor.prototype.stringify;
-        }
-        return new MySuperBasePseudoClassSelector(value);
-    },
-
-    pseudoElement: function(value) {
-        let MySuperBasePseudoElementSelector = function (value) {
-          MySuperBasePseudoElementSelector.prototype = cssSelectorBuilder;
-          cssSelectorBuilder.str += '::' + value;
-          this.val = cssSelectorBuilder.str;
-        
-          this.element = this.id = this.class = this.attr = this.pseudoClass = function () {
-            throw 'Selector parts should be arranged in the following order: element, id, class, '
-              + 'attribute, pseudo-class, pseudo-element';
-          };
-
-          this.pseudoElement = function () {
-            throw 'Element, id and pseudo-element should not occur more then one time inside the selector';
-          };
-
-          this.stringify = this.constructor.prototype.stringify;       
-        }
-
-        return new MySuperBasePseudoElementSelector(value);
-    },
-
-    combine: function(selector1, combinator, selector2) {
-        let MySuperBaseCombineSelector = function (selector1, combinator, selector2) {
-          let selector1Val = selector1.val;
-          let selector2Val = selector2.val.slice((selector1.val).length);
-        
-          this.val = selector1Val + ' ' + combinator + ' ' + selector2Val;              
-          this.stringify = function () { 
-            cssSelectorBuilder.str = '';
-        
-            return  this.val;
-          };  
-        }
-    
-        return new MySuperBaseCombineSelector(selector1, combinator, selector2);        
-    }, 
-    
-    stringify: function () { 
-        this.val = cssSelectorBuilder.str;
-        cssSelectorBuilder.str = '';       
-        
-        return  this.val;                
-    }
 };
+
+ function CssSelectorCombined(selector) {
+        this.stringify = function() {
+            return selector;
+        }
+    }
+        
+    function CssSelector() {
+        const tooManyPartsInsideSelectorMsg = 'Element, id and pseudo-element should not occur more then one time inside the selector';
+        const wrongOrderMsg = 'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element';
+        var _element, _id, _class, _attr, _pseudoClass, _pseudoElement;
+
+        function checkIsNotSetted(values) {
+            if (values.some(v => v !== undefined))
+                throw new Error(wrongOrderMsg);
+        }
+
+        function addElementToArray(arr, elem) {
+            if (arr) {
+                arr.push(elem);
+                return arr;
+            }
+            return [elem];
+        }
+
+        this.element = function (value) {
+            if (this._element)
+                throw new Error(tooManyPartsInsideSelectorMsg);
+            checkIsNotSetted([this._id, this._class, this._attr, this._pseudoClass, this._pseudoElement]);
+            this._element = value;
+            return this;
+        };
+
+        this.id = function (value) {
+            if (this._id)
+                throw new Error(tooManyPartsInsideSelectorMsg);
+            checkIsNotSetted([this._class, this._attr, this._pseudoClass, this._pseudoElement]);
+            this._id = value;
+            return this;
+        };
+
+        this.class = function (value) {
+            checkIsNotSetted([this._attr, this._pseudoClass, this._pseudoElement]);
+            this._class = addElementToArray(this._class, value);
+            return this;
+        };
+
+        this.attr = function (value) {
+            checkIsNotSetted([this._pseudoClass, this._pseudoElement]);
+            this._attr = addElementToArray(this._attr, value);
+            return this;
+        };
+
+        this.pseudoClass = function (value) {
+            checkIsNotSetted([this._pseudoElement]);
+            this._pseudoClass = addElementToArray(this._pseudoClass, value);
+            return this;
+        };
+
+        this.pseudoElement = function (value) {
+            if (this._pseudoElement)
+                throw new Error(tooManyPartsInsideSelectorMsg);
+            this._pseudoElement = value;
+            return this;
+        };
+
+        this.stringify = function () {
+            let result = '';
+            if (this._element)
+                result += this._element;
+            if (this._id)
+                result += `#${this._id}`;
+            if (this._class)
+                result += this._class.map(e => `.${e}`).join('');
+            if (this._attr)
+                result += this._attr.map(e => `[${e}]`).join('');
+            if (this._pseudoClass)
+                result += this._pseudoClass.map(e => `:${e}`).join('');
+            if (this._pseudoElement)
+                result += `::${this._pseudoElement}`;
+            return result;
+        };
+
+        this.combine = function (selector1, combinator, selector2) {
+            return new CssSelectorCombined(`${selector1.stringify()} ${combinator} ${selector2.stringify()}`);
+        }
+
+    }
 
 
 module.exports = {
