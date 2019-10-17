@@ -496,11 +496,11 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    let aNumRows = m1.length;
-    let aNumCols = m1[0].length;
-    let bNumRows = m2.length;
-    let bNumCols = m2[0].length;
-    let arr = new Array(aNumRows);
+    const aNumRows = m1.length;
+    const aNumCols = m1[0].length;
+    const bNumRows = m2.length;
+    const bNumCols = m2[0].length;
+    const arr = new Array(aNumRows);
     for (let k = 0; k < aNumRows; ++k) {
         arr[k] = new Array(bNumCols);
         for (let c = 0; c < bNumCols; ++c) {
