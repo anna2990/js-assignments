@@ -495,21 +495,23 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    let res = [];
-        for (let i = 0; i < m1.length; i++) {
-            res[i] = [];
-            for (let j = 0; j < m2[0].length; j++) {
-                res[i][j] = 0;
-            }
+   let rows = m1.length;
+   let cols = m2[0].length;
+   let m = m2.length;
+   let ans = new Array(rows);
+   for (let i = 0; i < rows; i++) {
+      ans[i] = new Array(cols);
+   }
+   for (let i = 0; i < rows; i++) {
+     for (let j = 0; j < cols; j++) {
+       let tmp = 0;
+       for (let k = 0; k < m; k++) {
+          tmp += m1[i][k] * m2[k][j];
+          ans[i][j] = tmp;
         }
-        for (let i = 0; i < m1.length; i++) {
-            for (let j = 0; j < m2[0].length; j++) {
-                for (let k = 0; k < m2.length; k++) {
-                    res[i][j] += m1[i][k] * m2[k][j];
-                }
-            }
-        }
-        return res;
+     }
+   }
+    return ans;
 }
 
 
