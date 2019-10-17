@@ -255,10 +255,11 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
+    let number = num;
     let b = 0;
     while (num > 0) {
-        b = (b + num % 10) * 10;
-        num = parseInt( num / 10 );
+        b = (b + number % 10) * 10;
+        number = parseInt( number / 10 );
     }
     return b / 10
 }
