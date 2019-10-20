@@ -64,14 +64,10 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-    return (x) => {
-        let ret = null;
-        for (var i = 0; i < arguments.length; i++) {
-            ret += arguments[i] * Math.pow(x, arguments.length - i - 1);
-        }
-        return ret;
-    }
+function getPolynom(...props) {
+    if (!props.length) return null;
+    const args = Array.from(props).reverse();
+    return x => args.reduce(( y, elem, ind ) => y + elem * Math.pow( x, ind ), 0 );
 }
 
 
@@ -148,19 +144,13 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    return  function () {
-        let args = [...arguments];     
-        let strArgs = args.reduce((value, arr, index) => value + (index == 0 ? '' : ',') + JSON.stringify(arr), ''); 
-        let val;
-                                
-        logFunc(`${func.name}(${strArgs}) starts`);
-        val = func.apply(this,arguments);
-                    
-        if (!!val) {
-          logFunc(`${func.name}(${strArgs}) ends`);               
-        }   
-        return val;           
-    }
+    return function(...props) {
+       const str = `${func.name}(${JSON.stringify(Array.from(props)).slice(1, -1)}) `;
+       logFunc(str + 'starts');
+       const result = func.apply(null, props);
+       logFunc(str + 'ends');
+       return result;
+    };
 }
 
 
@@ -203,9 +193,7 @@ function partialUsingArguments(fn) {
  */
 function getIdGeneratorFunction(startFrom) {
     let counter = startFrom;
-    return function() {
-        return counter++;
-    }
+    return () => counter++;
 }
 
 
