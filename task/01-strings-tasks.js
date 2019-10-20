@@ -55,7 +55,7 @@ function getStringLength(value) {
  *   'Chuck','Norris'  => 'Hello, Chuck Norris!'
  */
 function getStringFromTemplate(firstName, lastName) {
-    return `Hello, ${firstName + ' ' + lastName + '!'}`;
+    return `Hello, ${firstName} ${lastName}!`;
 }
 
 /**
@@ -69,8 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    let result = value.slice(7, -1);
-    return result;
+    return value.slice(7, -1);
 }
 
 /**
@@ -99,8 +98,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-    let str = value.trim();
-    return str;
+    return value.trim();
 }
 
 /**
@@ -115,11 +113,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-    let arr = [];
-    while(arr.length < count) {
-        arr.push(value);
-    }
-    return arr.join('');
+    return value.repeat(count);
 }
 
 /**
@@ -150,7 +144,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    return str.slice(1, str.length - 1);
+    return str.replace('<','').replace('>','');
 }
 
 
@@ -207,9 +201,9 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    let str1 = '─'.repeat(width-2);
-    let str2 = ' '.repeat(width-2);
-    let str3 = `\n│${str2}│`.repeat(height-2);
+    const str1 = '─'.repeat(width-2);
+    const str2 = ' '.repeat(width-2);
+    const str3 = `\n│${str2}│`.repeat(height-2);
     return `┌${str1}┐${str3}\n└${str1}┘\n`;
 }
 
@@ -230,8 +224,8 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-    return (str+'').replace(/[a-zA-Z]/gi,function(subStr) {
-        return String.fromCharCode(subStr.charCodeAt(0)+(subStr.toLowerCase() < 'n' ? 13 : -13));
+    return (str+'').replace(/[a-zA-Z]/gi, function(subStr) {
+        return String.fromCharCode(subStr.charCodeAt(0) + (subStr.toLowerCase() < 'n' ? 13 : -13));
     });
 }
 
@@ -249,11 +243,8 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    if (typeof value === 'string' || value instanceof String) {
-        return true;
-    } else {
-        return false;
-    }
+    return (typeof value === 'string' || value instanceof String) ? true : false;
+       
 }
 
 
@@ -282,7 +273,7 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    const colors = '♣♦♥♠',
+    let colors = '♣♦♥♠',
     nums = 'A234567891JQK';
 
     let color = value[value.length - 1],
