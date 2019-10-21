@@ -482,9 +482,7 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-  let newArr = [];
-  return arr.filter((elem) => newArr.indexOf(elem) === -1 ? newArr.push(elem) : false);
-  /**return arr.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);*/
+   return arr.reduce((unique, item) => unique.includes(item) ? unique : [...unique, item], []);
 }
 
 /**
